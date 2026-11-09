@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 
 class ProjectController extends Controller
 {
@@ -52,7 +53,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('projects.show', compact('project'));
+        $miembros = $project->members->pluck('id')->toArray();
+
+        $usuariosDisponibles = User::whereNotIn('id', array_merge($miembros, [$project->user_id]))->get();
+
+        return view('projects.show', compact('project', 'usuariosDisponibles'));
     }
 
     /**
