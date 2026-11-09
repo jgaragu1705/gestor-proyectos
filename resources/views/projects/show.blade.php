@@ -1,3 +1,4 @@
+
 <x-app-layout>
 
     <h2>Detalle del proyecto</h2>
@@ -39,6 +40,26 @@
         @endforelse
 
     </table>
+
+
+    @can('update', $project)
+        <h3>Añadir participante</h3>
+
+        <form method="POST" action="{{ route('projects.members.store', $project) }}">
+            @csrf
+
+            <label>ID del usuario:</label>
+            <input type="number" name="user_id" required>
+
+            <label>Rol:</label>
+            <input type="text" name="role" required>
+
+            <label>Horas de contribución:</label>
+            <input type="number" name="contribution_hours" min="0" step="0.01">
+
+            <button type="submit">Añadir participante</button>
+        </form>
+    @endcan
 
 
     @can('update', $project)
