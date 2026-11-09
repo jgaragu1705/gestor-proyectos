@@ -40,6 +40,25 @@
 
     </table>
 
+
+    @can('update', $project)
+        <p>
+            <a href="{{ route('projects.edit', $project) }}">Editar proyecto</a>
+        </p>
+    @endcan
+
+    @can('delete', $project)
+        <form method="POST" action="{{ route('projects.destroy', $project) }}">
+
+            @csrf
+            @method('DELETE')
+
+            <button type="submit">Eliminar proyecto</button>
+
+        </form>
+    @endcan
+
+
     <p>
         <a href="{{ route('projects.index') }}">Volver al listado</a>
     </p>
