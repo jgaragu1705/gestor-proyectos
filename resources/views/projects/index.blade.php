@@ -1,49 +1,64 @@
 <x-app-layout>
 
-    <h2>Mis proyectos</h2>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800">
+                Proyectos
+            </h2>
 
-    <p>
-        <a href="{{ route('projects.create') }}">Crear nuevo proyecto</a>
-    </p>
-
-    @forelse ($propios as $proyecto)
-
-        <div>
-            <h3>{{ $proyecto->title }}</h3>
-
-            <p>Descripción: {{ $proyecto->description }}</p>
-            <p>Fecha límite: {{ $proyecto->deadline->format('d/m/Y') }}</p>
-            <p>Estado: {{ $proyecto->status }}</p>
-
-            <a href="{{ route('projects.show', $proyecto) }}">Ver detalles</a>
+            <a href="{{ route('projects.create') }}"
+               class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                Nuevo proyecto
+            </a>
         </div>
+    </x-slot>
 
-    @empty
+    <div class="max-w-7xl mx-auto px-4 py-8">
 
-        <p>Todavía no tienes proyectos.</p>
+        <h3 class="text-lg font-semibold mb-4">Creados por mí</h3>
 
-    @endforelse
+        @if ($propios->isEmpty())
 
+            <p class="text-gray-500 mb-8">
+                Todavía no tienes proyectos.
+            </p>
 
-    <h2>Proyectos en los que participo</h2>
+        @else
 
-    @forelse ($participando as $proyecto)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
 
-        <div>
-            <h3>{{ $proyecto->title }}</h3>
+                @foreach ($propios as $proyecto)
 
-            <p>Descripción: {{ $proyecto->description }}</p>
-            <p>Fecha límite: {{ $proyecto->deadline->format('d/m/Y') }}</p>
-            <p>Estado: {{ $proyecto->status }}</p>
-            <p>Mi rol: {{ $proyecto->pivot->role }}</p>
+                    <x-project-card :project="$proyecto" />
 
-            <a href="{{ route('projects.show', $proyecto) }}">Ver detalles</a>
-        </div>
+                @endforeach
 
-    @empty
+            </div>
 
-        <p>No participas en ningún proyecto.</p>
+        @endif
 
-    @endforelse
+        <h3 class="text-lg font-semibold mb-4">Proyectos en los que participo</h3>
+
+        @if ($participando->isEmpty())
+
+            <p class="text-gray-500">
+                No participas en ningún proyecto.
+            </p>
+
+        @else
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                @foreach ($participando as $proyecto)
+
+                    <x-project-card :project="$proyecto" :role="$proyecto->pivot->role" />
+
+                @endforeach
+
+            </div>
+
+        @endif
+
+    </div>
 
 </x-app-layout>
