@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class ProjectMemberController extends Controller
 {
@@ -15,7 +16,7 @@ class ProjectMemberController extends Controller
 
         $datos = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'role' => 'required|in:' . implode(',', Project::ROLES),
+            'role' => ['required', Rule::in(Project::ROLES)],
             'contribution_hours' => 'nullable|numeric|min:0',
         ]);
 
@@ -48,7 +49,7 @@ class ProjectMemberController extends Controller
         }
 
         $datos = $request->validate([
-            'role' => 'required|in:' . implode(',', Project::ROLES),
+            'role' => ['required', Rule::in(Project::ROLES)],
             'contribution_hours' => 'required|numeric|min:0',
         ]);
 

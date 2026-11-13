@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    const ROLES = [
+    public const ROLES = [
         'Desarrollador',
         'Diseñador',
         'Tester',
