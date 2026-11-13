@@ -15,7 +15,7 @@ class ProjectMemberController extends Controller
 
         $datos = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'role' => 'required|in:Desarrollador,Diseñador,Tester',
+            'role' => 'required|in:' . implode(',', Project::ROLES),
             'contribution_hours' => 'nullable|numeric|min:0',
         ]);
 
@@ -48,7 +48,7 @@ class ProjectMemberController extends Controller
         }
 
         $datos = $request->validate([
-            'role' => 'required|in:Desarrollador,Diseñador,Tester',
+            'role' => 'required|in:' . implode(',', Project::ROLES),
             'contribution_hours' => 'required|numeric|min:0',
         ]);
 

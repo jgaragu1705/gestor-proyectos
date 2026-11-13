@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    const ROLES = [
+        'Desarrollador',
+        'Diseñador',
+        'Tester',
+    ];
+
     protected $fillable = [
         'title',
         'description',
@@ -14,16 +20,20 @@ class Project extends Model
         'user_id',
     ];
 
-    public function owner(){
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function members(){
+    public function members()
+    {
         return $this->belongsToMany(User::class)
             ->withPivot('role', 'contribution_hours')
             ->withTimestamps();
     }
-    protected function casts(): array{
+
+    protected function casts(): array
+    {
         return [
             'deadline' => 'date',
         ];

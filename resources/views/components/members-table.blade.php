@@ -41,9 +41,13 @@
                                 @method('PATCH')
 
                                 <select name="role" required class="border-gray-300 rounded-lg text-sm">
-                                    <option value="Desarrollador" {{ $miembro->pivot->role == 'Desarrollador' ? 'selected' : '' }}>Desarrollador</option>
-                                    <option value="Diseñador" {{ $miembro->pivot->role == 'Diseñador' ? 'selected' : '' }}>Diseñador</option>
-                                    <option value="Tester" {{ $miembro->pivot->role == 'Tester' ? 'selected' : '' }}>Tester</option>
+
+                                    @foreach (\App\Models\Project::ROLES as $rol)
+                                        <option value="{{ $rol }}" {{ $miembro->pivot->role == $rol ? 'selected' : '' }}>
+                                            {{ $rol }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
 
                                 <input type="number" name="contribution_hours" value="{{ $miembro->pivot->contribution_hours }}" min="0" step="0.01" required class="border-gray-300 rounded-lg text-sm w-24">

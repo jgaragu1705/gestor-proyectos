@@ -1,84 +1,98 @@
+
 <x-app-layout>
 
-    <h2>Editar proyecto</h2>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold text-gray-800">
+            Editar proyecto
+        </h2>
+    </x-slot>
 
-    <form method="POST" action="{{ route('projects.update', $project) }}">
+    <div class="max-w-2xl mx-auto px-4 py-8">
 
-        @csrf
-        @method('PUT')
+        <x-card>
 
-        <p>
-            <label for="title">Título:</label>
-            <input
-                type="text"
-                id="title"
-                name="title"
-                value="{{ old('title', $project->title) }}"
-            >
+            <form method="POST" action="{{ route('projects.update', $project) }}">
+                @csrf
+                @method('PUT')
 
-            @error('title')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                <div class="mb-4">
+                    <label for="title" class="block text-sm text-gray-600 mb-1">
+                        Nombre del proyecto
+                    </label>
 
-        <p>
-            <label for="description">Descripción:</label>
-            <textarea
-                id="description"
-                name="description"
-            >{{ old('description', $project->description) }}</textarea>
+                    <input type="text" id="title" name="title" value="{{ old('title', $project->title) }}" class="w-full border-gray-300 rounded-lg text-sm">
 
-            @error('description')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                    @error('title')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <p>
-            <label for="deadline">Fecha límite:</label>
-            <input
-                type="date"
-                id="deadline"
-                name="deadline"
-                value="{{ old('deadline', $project->deadline->format('Y-m-d')) }}"
-            >
+                <div class="mb-4">
+                    <label for="description" class="block text-sm text-gray-600 mb-1">
+                        Descripción
+                    </label>
 
-            @error('deadline')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                    <textarea id="description" name="description" rows="4" class="w-full border-gray-300 rounded-lg text-sm">{{ old('description', $project->description) }}</textarea>
 
-        <p>
-            <label for="status">Estado:</label>
+                    @error('description')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <select id="status" name="status">
+                <div class="mb-4">
+                    <label for="deadline" class="block text-sm text-gray-600 mb-1">
+                        Fecha límite
+                    </label>
 
-                <option value="pendiente" {{ old('status', $project->status) == 'pendiente' ? 'selected' : '' }}>
-                    Pendiente
-                </option>
+                    <input type="date" id="deadline" name="deadline" value="{{ old('deadline', $project->deadline->format('Y-m-d')) }}" class="w-full border-gray-300 rounded-lg text-sm">
 
-                <option value="en progreso" {{ old('status', $project->status) == 'en progreso' ? 'selected' : '' }}>
-                    En progreso
-                </option>
+                    @error('deadline')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <option value="finalizado" {{ old('status', $project->status) == 'finalizado' ? 'selected' : '' }}>
-                    Finalizado
-                </option>
+                <div class="mb-4">
+                    <label for="status" class="block text-sm text-gray-600 mb-1">
+                        Estado
+                    </label>
 
-            </select>
+                    <select id="status" name="status" class="w-full border-gray-300 rounded-lg text-sm">
 
-            @error('status')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                        <option value="pendiente" {{ old('status', $project->status) == 'pendiente' ? 'selected' : '' }}>
+                            Pendiente
+                        </option>
 
-        <button type="submit">
-            Guardar cambios
-        </button>
+                        <option value="en progreso" {{ old('status', $project->status) == 'en progreso' ? 'selected' : '' }}>
+                            En progreso
+                        </option>
 
-    </form>
+                        <option value="finalizado" {{ old('status', $project->status) == 'finalizado' ? 'selected' : '' }}>
+                            Finalizado
+                        </option>
 
-    <p>
-        <a href="{{ route('projects.show', $project) }}">Volver al proyecto</a>
-    </p>
+                    </select>
+
+                    @error('status')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex items-center gap-3">
+
+                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                        Guardar cambios
+                    </button>
+
+                    <a href="{{ route('projects.show', $project) }}" class="text-gray-600 hover:text-gray-800">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </x-card>
+
+    </div>
 
 </x-app-layout>

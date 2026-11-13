@@ -90,9 +90,11 @@
                             </label>
 
                             <select name="role" required class="w-full border-gray-300 rounded-lg text-sm">
-                                <option value="Desarrollador">Desarrollador</option>
-                                <option value="Diseñador">Diseñador</option>
-                                <option value="Tester">Tester</option>
+                                @foreach (\App\Models\Project::ROLES as $rol)
+                                    <option value="{{ $rol }}">
+                                        {{ $rol }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 

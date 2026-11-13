@@ -1,80 +1,95 @@
 
 <x-app-layout>
 
-    <h2>Nuevo proyecto</h2>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold text-gray-800">
+            Nuevo proyecto
+        </h2>
+    </x-slot>
 
-    <form method="POST" action="{{ route('projects.store') }}">
+    <div class="max-w-2xl mx-auto px-4 py-8">
 
-        @csrf
+        <x-card>
 
-        <p>
-            <label for="title">Título:</label>
-            <input
-                type="text"
-                id="title"
-                name="title"
-                value="{{ old('title') }}"
-            >
+            <form method="POST" action="{{ route('projects.store') }}">
+                @csrf
 
-            @error('title')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                <div class="mb-4">
+                    <label for="title" class="block text-sm text-gray-600 mb-1">
+                        Nombre del proyecto
+                    </label>
 
-        <p>
-            <label for="description">Descripción:</label>
-            <textarea
-                id="description"
-                name="description"
-            >{{ old('description') }}</textarea>
+                    <input type="text" id="title" name="title" value="{{ old('title') }}" class="w-full border-gray-300 rounded-lg text-sm">
 
-            @error('description')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                    @error('title')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <p>
-            <label for="deadline">Fecha límite:</label>
-            <input
-                type="date"
-                id="deadline"
-                name="deadline"
-                value="{{ old('deadline') }}"
-            >
+                <div class="mb-4">
+                    <label for="description" class="block text-sm text-gray-600 mb-1">
+                        Descripción
+                    </label>
 
-            @error('deadline')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                    <textarea id="description" name="description" rows="4" class="w-full border-gray-300 rounded-lg text-sm">{{ old('description') }}</textarea>
 
-        <p>
-            <label for="status">Estado:</label>
+                    @error('description')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <select id="status" name="status">
+                <div class="mb-4">
+                    <label for="deadline" class="block text-sm text-gray-600 mb-1">
+                        Fecha límite
+                    </label>
 
-                <option value="pendiente" {{ old('status') == 'pendiente' ? 'selected' : '' }}>
-                    Pendiente
-                </option>
+                    <input type="date" id="deadline" name="deadline" value="{{ old('deadline') }}" class="w-full border-gray-300 rounded-lg text-sm">
 
-                <option value="en progreso" {{ old('status') == 'en progreso' ? 'selected' : '' }}>
-                    En progreso
-                </option>
+                    @error('deadline')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <option value="finalizado" {{ old('status') == 'finalizado' ? 'selected' : '' }}>
-                    Finalizado
-                </option>
+                <div class="mb-4">
+                    <label for="status" class="block text-sm text-gray-600 mb-1">
+                        Estado
+                    </label>
 
-            </select>
+                    <select id="status" name="status" class="w-full border-gray-300 rounded-lg text-sm">
+                        <option value="pendiente" {{ old('status', 'pendiente') == 'pendiente' ? 'selected' : '' }}>
+                            Pendiente
+                        </option>
 
-            @error('status')
-                <span>{{ $message }}</span>
-            @enderror
-        </p>
+                        <option value="en progreso" {{ old('status') == 'en progreso' ? 'selected' : '' }}>
+                            En progreso
+                        </option>
 
-        <button type="submit">
-            Guardar proyecto
-        </button>
+                        <option value="finalizado" {{ old('status') == 'finalizado' ? 'selected' : '' }}>
+                            Finalizado
+                        </option>
+                    </select>
 
-    </form>
+                    @error('status')
+                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex items-center gap-3">
+
+                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                        Guardar proyecto
+                    </button>
+
+                    <a href="{{ route('projects.index') }}" class="text-gray-600 hover:text-gray-800">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </x-card>
+
+    </div>
 
 </x-app-layout>
