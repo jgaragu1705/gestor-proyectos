@@ -12,7 +12,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $project->user_id == $user->id;
+        return (int) $project->user_id === (int) $user->id;
     }
 
     /**
@@ -20,6 +20,6 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $project->user_id == $user->id;
+        return (int) $project->user_id === (int) $user->id;
     }
 }
