@@ -1,10 +1,9 @@
-
 <?php
 
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectMemberController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectMemberController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
