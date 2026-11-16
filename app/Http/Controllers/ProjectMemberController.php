@@ -17,12 +17,15 @@ class ProjectMemberController extends Controller
         $datos = $request->validate([
             'user_id' => 'required|exists:users,id',
             'role' => ['required', Rule::in(Project::ROLES)],
-            'contribution_hours' => 'nullable|numeric|min:0',
+            'contribution_hours' => 'nullable|numeric|min:0|max:10000',
+        ], [
+            'user_id.required' => 'Debes seleccionar un usuario.',
+            'user_id.exists' => 'El usuario seleccionado no existe.',
         ]);
 
-        if ($datos['user_id'] == $project->user_id) {
+        if ((int) $datos['user_id'] === (int) $project->user_id) {
             return redirect()->route('projects.show', $project)
-                ->with('error', 'El propietario ya pertenece al proyecto.');
+                ->with('error', 'No puedes añadir al propietario como participante.');
         }
 
         if ($project->members()->where('user_id', $datos['user_id'])->exists()) {
@@ -32,7 +35,7 @@ class ProjectMemberController extends Controller
 
         $project->members()->attach($datos['user_id'], [
             'role' => $datos['role'],
-            'contribution_hours' => $datos['contribution_hours'] ?? 0
+            'contribution_hours' => $datos['contribution_hours'] ?? 0,
         ]);
 
         return redirect()->route('projects.show', $project)
@@ -50,12 +53,12 @@ class ProjectMemberController extends Controller
 
         $datos = $request->validate([
             'role' => ['required', Rule::in(Project::ROLES)],
-            'contribution_hours' => 'required|numeric|min:0',
+            'contribution_hours' => 'required|numeric|min:0|max:10000',
         ]);
 
         $project->members()->updateExistingPivot($user->id, [
             'role' => $datos['role'],
-            'contribution_hours' => $datos['contribution_hours']
+            'contribution_hours' => $datos['contribution_hours'],
         ]);
 
         return redirect()->route('projects.show', $project)
